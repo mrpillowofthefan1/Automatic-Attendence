@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "497189847637",
+    "firebase_url": "https://citybot-nwlm-default-rtdb.firebaseio.com",
+    "project_id": "citybot-nwlm",
+    "storage_bucket": "citybot-nwlm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497189847637:android:0fd36ac855d86176760adc",
+        "android_client_info": {
+          "package_name": "com.example.carrapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN_GY4alzKdle_2bL-VzYEctDBgzosBkM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497189847637:android:7609210865e3bff9760adc",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN_GY4alzKdle_2bL-VzYEctDBgzosBkM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
