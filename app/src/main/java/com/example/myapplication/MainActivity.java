@@ -18,7 +18,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
-import android.widget.Button;
 
 
 import androidx.annotation.RequiresApi;
@@ -27,24 +26,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Locale;
+
+import java.nio.charset.StandardCharsets;
 
 
-@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class MainActivity extends AppCompatActivity {
-
+    MyHostApduService card = new MyHostApduService();
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://citybot-nwlm-default-rtdb.firebaseio.com/");
     NdefRecord uriRecord = new NdefRecord(
             NdefRecord.TNF_ABSOLUTE_URI,
-            "application/vnd.com.example.android.beam".getBytes(Charset.forName("US-ASCII")),
+            "application/vnd.com.example.android.beam".getBytes(StandardCharsets.US_ASCII),
             new byte[0], new byte[0]);
 
     NdefRecord mimeRecord = new NdefRecord(
             NdefRecord.TNF_MIME_MEDIA,
-            "application/vnd.com.example.android.beam".getBytes(Charset.forName("US-ASCII")),
-            new byte[0], "Beam me up, Android!".getBytes(Charset.forName("US-ASCII")));
-    NdefRecord rtdUriRecord1 = NdefRecord.createUri("https://example.com");
+            "application/vnd.com.example.android.beam".getBytes(StandardCharsets.US_ASCII),
+            new byte[0], "Beam me up, Android!".getBytes(StandardCharsets.US_ASCII));
     byte[] payload;
     String domain = "com.Attendance";
     String type = "externalType";
@@ -55,10 +53,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        createTextRecord("Hello World", Locale.ENGLISH, true);
-                
-
-
+        onNewIntent(getIntent());
     }
 
     @Override
@@ -85,26 +80,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public NdefRecord createTextRecord(String payload, Locale locale, boolean encodeInUtf8) {
-        byte[] langBytes = locale.getLanguage().getBytes(Charset.forName("US-ASCII"));
-        Charset utfEncoding = encodeInUtf8 ? Charset.forName("UTF-8") : Charset.forName("UTF-16");
-        byte[] textBytes = payload.getBytes(utfEncoding);
-        int utfBit = encodeInUtf8 ? 0 : (1 << 7);
-        char status = (char) (utfBit + langBytes.length);
-        byte[] data = new byte[1 + langBytes.length + textBytes.length];
-        data[0] = (byte) status;
-        System.arraycopy(langBytes, 0, data, 1, langBytes.length);
-        System.arraycopy(textBytes, 0, data, 1 + langBytes.length, textBytes.length);
-        NdefRecord record = new NdefRecord(NdefRecord.TNF_WELL_KNOWN,
-                NdefRecord.RTD_TEXT, new byte[0], data);
-        return record;
-    }
+
     public String readTag(Tag tag) {
         MifareUltralight mifare = MifareUltralight.get(tag);
         try {
             mifare.connect();
             byte[] payload = mifare.readPages(4);
-            return new String(payload, Charset.forName("US-ASCII"));
+            return new String(payload, StandardCharsets.US_ASCII);
         } catch (IOException e) {
             Log.e(TAG, "IOException while reading MifareUltralight message...", e);
         } finally {
@@ -120,5 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
         return null;
     }
+
 
 }

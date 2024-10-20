@@ -1,11 +1,10 @@
 package com.example.myapplication;
 
-import android.app.Service;
 import android.nfc.cardemulation.HostApduService;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
+
 
 import androidx.annotation.RequiresApi;
 
