@@ -23,7 +23,7 @@ public class MyHostApduService extends HostApduService {
         Log.d("HCE", "APDU received: " + apduString);
 
         if (apduString.startsWith(SELECT_APDU_HEADER)) {
-            byte[] response = "Hello from HCE!".getBytes(Charset.forName("UTF-8"));
+            byte[] response = "var name = 'John Doe'".getBytes(Charset.forName("UTF-8"));
             return concatenateArrays(response, hexStringToByteArray(RESPONSE_OK));
         } else {
             return hexStringToByteArray(RESPONSE_ERROR);
