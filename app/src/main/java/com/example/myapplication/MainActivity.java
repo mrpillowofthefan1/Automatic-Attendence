@@ -3,6 +3,8 @@ package com.example.myapplication;
 import static android.content.ContentValues.TAG;
 
 
+import static com.example.myapplication.login.username;
+
 import android.content.Intent;
 
 
@@ -18,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.widget.TextView;
 
 
 import androidx.annotation.RequiresApi;
@@ -32,6 +35,8 @@ import java.nio.charset.StandardCharsets;
 
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class MainActivity extends AppCompatActivity {
+    TextView textView2;
+    TextView textView;
     MyHostApduService card = new MyHostApduService();
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://citybot-nwlm-default-rtdb.firebaseio.com/");
     NdefRecord uriRecord = new NdefRecord(
@@ -48,12 +53,17 @@ public class MainActivity extends AppCompatActivity {
     String type = "externalType";
     NdefRecord extRecord = NdefRecord.createExternal(domain, type, payload);
     String readableTag;
+    public String user = username.getText().toString();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+         textView2 = findViewById(R.id.textView2);
         onNewIntent(getIntent());
+        textView = findViewById(R.id.textView);
+        textView.setText(user);
+
     }
 
     @Override
@@ -73,9 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 readableTag = readTag(tag);
                 if (readableTag != null) {
                     Log.d(TAG, "onNewIntent: " + readableTag);
-                }
-                Log.d(TAG, "onNewIntent: " + messages);
 
+                }
             }
         }
     }
@@ -86,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             mifare.connect();
             byte[] payload = mifare.readPages(4);
+            textView2.setText(new String(payload, StandardCharsets.US_ASCII));
             return new String(payload, StandardCharsets.US_ASCII);
         } catch (IOException e) {
             Log.e(TAG, "IOException while reading MifareUltralight message...", e);
