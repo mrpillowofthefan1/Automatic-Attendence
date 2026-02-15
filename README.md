@@ -1,1 +1,1 @@
-This is a NFC based attendence monitor. 
+This is an app which monitors attendence by NFC. The person needs to open the app and put the phone next to the reader. Then, the app will log the attendence in the database. It is still in progress, but it is easier to show and see attendence.
